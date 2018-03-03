@@ -22,6 +22,18 @@ class Offer
     private $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="users", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    protected $user;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Service", inversedBy="offers", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="offer_id", referencedColumnName="id")
+     */
+    protected $offer;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="date", type="datetime")
@@ -34,6 +46,8 @@ class Offer
      * @ORM\Column(name="description", type="text")
      */
     private $description;
+
+
 
 
     /**
@@ -92,5 +106,53 @@ class Offer
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \AppBundle\Entity\User $user
+     *
+     * @return Offer
+     */
+    public function setUser(\AppBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \AppBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Set offer
+     *
+     * @param \AppBundle\Entity\Service $offer
+     *
+     * @return Offer
+     */
+    public function setOffer(\AppBundle\Entity\Service $offer = null)
+    {
+        $this->offer = $offer;
+
+        return $this;
+    }
+
+    /**
+     * Get offer
+     *
+     * @return \AppBundle\Entity\Service
+     */
+    public function getOffer()
+    {
+        return $this->offer;
     }
 }

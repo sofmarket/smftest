@@ -100,8 +100,14 @@ class User extends BaseUser
      */
     protected $services;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Offer", mappedBy="user", cascade={"persist", "remove"})
+     */
+    protected $offers;
+
     public function __construct()
     {
+        $this->offers   = new ArrayCollection();
         $this->services = new ArrayCollection();
     }
 
@@ -378,5 +384,39 @@ class User extends BaseUser
     public function getServices()
     {
         return $this->services;
+    }
+
+    /**
+     * Add offer
+     *
+     * @param \AppBundle\Entity\Offer $offer
+     *
+     * @return User
+     */
+    public function addOffer(\AppBundle\Entity\Offer $offer)
+    {
+        $this->offers[] = $offer;
+
+        return $this;
+    }
+
+    /**
+     * Remove offer
+     *
+     * @param \AppBundle\Entity\Offer $offer
+     */
+    public function removeOffer(\AppBundle\Entity\Offer $offer)
+    {
+        $this->offers->removeElement($offer);
+    }
+
+    /**
+     * Get offers
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getOffers()
+    {
+        return $this->offers;
     }
 }

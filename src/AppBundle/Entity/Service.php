@@ -76,9 +76,21 @@ class Service
     private $validon;
 
     /**
-     * @ORM\OneToOne(targetEntity="Offer", cascade={"persist", "remove"})
+     * @var int
+     *
+     * @ORM\Column(name="offer", type="integer")
      */
-    private $offer;    
+    private $offer;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Offer", mappedBy="service", cascade={"persist", "remove"})
+     */
+    protected $offers;
+
+    public function __construct()
+    {
+        $this->offers   = new ArrayCollection();
+    }
 
 
     /**
@@ -284,13 +296,47 @@ class Service
     }
 
     /**
-     * Set offer
+     * Add offer
      *
      * @param \AppBundle\Entity\Offer $offer
      *
      * @return Service
      */
-    public function setOffer(\AppBundle\Entity\Offer $offer = null)
+    public function addOffer(\AppBundle\Entity\Offer $offer)
+    {
+        $this->offers[] = $offer;
+
+        return $this;
+    }
+
+    /**
+     * Remove offer
+     *
+     * @param \AppBundle\Entity\Offer $offer
+     */
+    public function removeOffer(\AppBundle\Entity\Offer $offer)
+    {
+        $this->offers->removeElement($offer);
+    }
+
+    /**
+     * Get offers
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getOffers()
+    {
+        return $this->offers;
+    }
+
+    /**
+     * Set offer
+     *
+     * @param integer $offer
+     *
+     * @return Service
+     */
+    public function setOffer($offer)
     {
         $this->offer = $offer;
 
@@ -300,7 +346,7 @@ class Service
     /**
      * Get offer
      *
-     * @return \AppBundle\Entity\Offer
+     * @return integer
      */
     public function getOffer()
     {
